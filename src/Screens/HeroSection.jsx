@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "../Assets/Images/logo.png";
+import arms from "../Assets/Images/arms.png";
 import { Link } from "react-router-dom";
 import ResultsContext from "../Context/ResultsContext";
 
@@ -9,10 +10,13 @@ function HeroSection() {
   const { results } = useContext(ResultsContext);
   const [show, setShow] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [PrintSection, setSection] = useState(false);
+  const [hide, setHide] = useState("flex");
   const [Title, setTitles] = useState([]);
   const [filtered, setfilterd] = useState([]);
-  const [examnumber, setNumber] = useState("P0134/");
+  const [examnumber, setNumber] = useState("P0134");
 
+  // handles filter
   const handleFilter = () => {
     const filterd = results.results?.filter((dt) => {
       return dt.examnumber === examnumber;
@@ -25,7 +29,20 @@ function HeroSection() {
       setShow(true);
     }
     setfilterd(filterd);
-    console.log(filterd);
+  };
+
+  const handleSection = () => {
+    setSection(true);
+    setShow(false);
+    setShowFilter(false);
+    setHide("hidden");
+  };
+
+  const handleChange = () => {
+    setSection(false);
+    setShow(false);
+    setShowFilter(true);
+    setHide("flex");
   };
 
   useEffect(() => {
@@ -48,7 +65,9 @@ function HeroSection() {
 
   return (
     <div className="flex mt-10 flex-col justify-center min-h-screen items-center">
-      <div className="flex mb-16 flex-col gap-y-4 justify-center items-center">
+      <div
+        className={`mb-16 flex-col gap-y-4 justify-center items-center ${hide}`}
+      >
         <img src={logo} alt="Necta Logo" className="max-w-screen h-auto" />
         <div className="flex flex-col gap-x-4 gap-y-3 sm:flex-row w-full">
           <input
@@ -65,7 +84,7 @@ function HeroSection() {
           <h1 onClick={handleShow}>GO</h1>
         </Link>
       </div>
-      {/* Results Display Section */}
+      {/* Single Results Display Section */}
       {show ? (
         <div className="flex gap-x-16 gap-y-10 justify-between flex-col">
           <div className="flex mb-10 flex-col gap-y-6 h-[200px] w-full rounded-2xl sticky top-0">
@@ -140,13 +159,13 @@ function HeroSection() {
               }
             })}
           </div>
-          {/* <div className="md:flex hidden flex-col h-[400px] w-[400px] sticky top-0 left-0 right-0 bottom-0 rounded-3xl bg-black"></div> */}
         </div>
       ) : (
         ""
       )}
+      {/* Single Results Display Section */}
       {showFilter ? (
-        <div className="flex gap-x-16 gap-y-10 justify-between flex-col">
+        <div className="flex mb-24 gap-x-16 gap-y-10 justify-between flex-col">
           <div className="flex mb-10 flex-col gap-y-6 h-[200px] w-full rounded-2xl sticky top-0">
             <div className="flex flex-col md:text-2xl text-xl items-center gap-y-1 justify-center">
               <h1 className="font-bold text-center">{Title?.necta}</h1>
@@ -175,8 +194,9 @@ function HeroSection() {
               } else {
                 return (
                   <div
+                    onClick={handleSection}
                     key={dt.examnumber}
-                    className="flex px-2 xl:text-xl md:ring-0 gap-y-1 ring-2 ring-green-600 rounded-2xl flex-col mt-5 gap-x-12 md:flex-row"
+                    className="flex px-2 cursor-pointer xl:text-xl md:ring-0 gap-y-1 ring-2 ring-green-600 rounded-2xl flex-col mt-5 gap-x-12 md:flex-row"
                   >
                     <div className="flex font-bold md:ring-2 md:ring-green-600 flex-col md:px-14 px-7 bg-slate-100 rounded-2xl p-5 md:p-10 gap-y-3">
                       <div className="flex gap-y-2 gap-x-3 md:flex-col flex-row items-center justify-center">
@@ -218,6 +238,114 @@ function HeroSection() {
                 );
               }
             })}
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {/* Print results section */}
+      {PrintSection ? (
+        <div className="md:p-20 p-2 bg-slate-100 flex flex-col rounded-xl w-full container mx-auto min-h-screen">
+          {/* Heading Section */}
+          <div className="flex flex-row md:items-center  justify-between">
+            {/* Necta Logo */}
+            <div>
+              <img src={logo} alt="necta logo" className="md:h-52 h-20" />
+            </div>
+            {/* Headings and Titles */}
+            <div className="flex flex-col xl:text-3xl xl:gap-y-3 md:text-2xl text-xl items-center gap-y-1 justify-center">
+              <h1 className="font-bold text-center">{Title?.necta}</h1>
+              <h1 className="font-medium text-center">{Title?.year}</h1>
+              <h1 className="font-medium text-center">{Title?.xcul}</h1>
+            </div>
+            {/* court of Arms logo */}
+            <div>
+              <img src={arms} alt="necta logo" className="md:h-52 h-20" />
+            </div>
+          </div>
+          {/* Student Details */}
+          <div className="flex flex-col mt-16 justify-center items-center">
+            <table className="w-[400px] bg-white">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
+                  <th className="py-2 px-4 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
+                </tr>
+              </thead>
+              <tbody className="text-center">
+                <tr>
+                  <td className="py-4 px-4 border-b border-gray-200 align-middle">
+                    REG NUMBER
+                  </td>
+                  <td className="py-4 px-4 border-b border-gray-200 align-top">
+                    {filtered[0]?.examnumber}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-4 px-4 border-b border-gray-200 align-middle">
+                    ACHIVEMENT
+                  </td>
+                  <td className="py-4 px-4 border-b border-gray-200 align-top">
+                    DIV {filtered[0]?.division} Point {filtered[0]?.points}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-4 px-4 border-b border-gray-200 align-middle">
+                    SEX
+                  </td>
+                  <td className="py-4 px-4 border-b border-gray-200 align-top">
+                    {filtered[0]?.sex === "F" ? "FEMALE" : "MALE"}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* Results Section */}
+          <div className="mt-12">
+            <table className="min-w-full bg-white">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4  xl:text-xl border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    SUBJECT
+                  </th>
+                  <th className="py-2 px-4 xl:text-xl xl:text-center border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    GRADE
+                  </th>
+                  <th className="py-2 px-4 xl:text-xl xl:text-center border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    REMARKS
+                  </th>
+                </tr>
+              </thead>
+              {filtered[0]?.subjects.map((dt) => {
+                return (
+                  <tbody>
+                    <tr>
+                      <td className="py-4 px-4 border-b border-gray-200 align-middle">
+                        {dt.subject}
+                      </td>
+                      <td className="py-4 xl:text-center px-4 border-b border-gray-200 align-top">
+                        {dt.grade}
+                      </td>
+                      <td className="py-4 px-4 xl:text-center border-b border-gray-200 align-bottom">
+                        {dt.grade === "A" ||
+                        dt.grade === "B" ||
+                        dt.grade === "C"
+                          ? "PASS"
+                          : "FAIL"}
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })}
+            </table>
+            <div className="mt-10">
+              <Link
+                onClick={handleChange}
+                className=" px-5 py-2 bg-green-600 text-white font-medium"
+              >
+                Go Back
+              </Link>
+            </div>
           </div>
         </div>
       ) : (

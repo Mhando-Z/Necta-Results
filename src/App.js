@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import { ResultsProvider } from "./Context/ResultsContext";
-import ResultsDisplay from "./Screens/ResultsDisplay";
 
 function App() {
   return (
@@ -10,7 +9,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="ResultsDisplay/" element={<ResultsDisplay />} />
           </Routes>
         </BrowserRouter>
       </ResultsProvider>
