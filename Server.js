@@ -31,6 +31,18 @@ async function getData(url) {
     });
   });
 
+  const yearTitle = $("h1").text().trim();
+  const nectaTitle = $("h2").text().trim();
+  const xculTitle = $("h3").text().trim();
+  const title = [];
+
+  const titles = {
+    year: yearTitle,
+    necta: nectaTitle,
+    xcul: xculTitle,
+  };
+  title.push(titles);
+
   const polished = results.map((dt) => {
     const { subjects } = dt;
     const subject = subjects.split("  ").map((subjGrade) => {
@@ -46,7 +58,7 @@ async function getData(url) {
     };
   });
 
-  return polished;
+  return { title, results: polished };
 }
 
 app.get("/api/results", async (req, res) => {
@@ -56,8 +68,8 @@ app.get("/api/results", async (req, res) => {
   }
 
   try {
-    const results = await getData(url);
-    res.json(results);
+    const data = await getData(url);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch data" });
   }
