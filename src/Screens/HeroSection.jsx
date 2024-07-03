@@ -88,7 +88,7 @@ function HeroSection() {
       {/* Single Results Display Section */}
       {show ? (
         <div className="flex gap-x-16 gap-y-10 justify-between flex-col">
-          <div className="flex mb-10 flex-col gap-y-6 h-[200px] w-full rounded-2xl sticky top-0">
+          <div className="flex flex-col gap-y-6 h-[200px] w-full rounded-2xl sticky top-0">
             <div className="flex flex-col md:text-2xl text-xl items-center gap-y-1 justify-center">
               <h1 className="font-bold text-center">{Title?.necta}</h1>
               <h1 className="font-medium text-center">{Title?.year}</h1>
