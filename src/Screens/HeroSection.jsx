@@ -60,6 +60,7 @@ function HeroSection() {
   };
 
   const handleShow = () => {
+    setShowFilter(false);
     setShow(true);
   };
 
@@ -97,7 +98,7 @@ function HeroSection() {
               <input
                 onChange={(e) => handleNumber(e)}
                 type="text"
-                className="py-2 md:relative text-black font-medium px-4 ring-green-600 rounded-3xl w-full outline-none ring-2"
+                className="py-2 md:relative text-black font-medium px-5 md:px-10 ring-green-600 rounded-3xl w-full outline-none ring-2"
                 placeholder="Write your examination number"
               />
               <Link
@@ -176,7 +177,7 @@ function HeroSection() {
               <input
                 onChange={(e) => handleNumber(e)}
                 type="text"
-                className="py-2 md:relative text-black font-medium px-4 ring-green-600 rounded-3xl w-full outline-none ring-2"
+                className="py-2 md:relative text-black font-medium md:px-10 px-4 ring-green-600 rounded-3xl w-full outline-none ring-2"
                 placeholder="Write your examination number"
               />
               <Link
@@ -247,25 +248,37 @@ function HeroSection() {
       {PrintSection ? (
         <div className="md:p-20 p-2 bg-slate-100 flex flex-col rounded-xl w-full container mx-auto min-h-screen">
           {/* Heading Section */}
-          <div className="flex flex-row md:items-center  justify-between">
+          <div className="flex md:flex-row flex-col md:items-center justify-between">
             {/* Necta Logo */}
-            <div>
-              <img src={logo} alt="necta logo" className="md:h-52 h-20" />
+            <div className="flex mt-5 flex-row md:hidden gap-x-2 items-center justify-center">
+              <img src={logo} alt="necta logo" className="lg:size-40 size-20" />
+              <img src={arms} alt="necta logo" className="lg:size-40 size-20" />
+            </div>
+            <div className="md:block hidden">
+              <img
+                src={logo}
+                alt="necta logo"
+                className="lg:size-40 xl:size-44 size-24"
+              />
             </div>
             {/* Headings and Titles */}
-            <div className="flex flex-col xl:text-3xl xl:gap-y-3 md:text-2xl text-xl items-center gap-y-1 justify-center">
+            <div className="flex flex-col mt-4 md:mt-0 xl:text-3xl xl:gap-y-3 md:text-2xl text-lg items-center gap-y-1 justify-center">
               <h1 className="font-bold text-center">{Title?.necta}</h1>
               <h1 className="font-medium text-center">{Title?.year}</h1>
               <h1 className="font-medium text-center">{Title?.xcul}</h1>
             </div>
             {/* court of Arms logo */}
-            <div>
-              <img src={arms} alt="necta logo" className="md:h-52 h-20" />
+            <div className="hidden md:block">
+              <img
+                src={arms}
+                alt="necta logo"
+                className="lg:size-40 xl:size-44 size-24"
+              />
             </div>
           </div>
           {/* Student Details */}
-          <div className="flex flex-col mt-16 justify-center items-center">
-            <table className="w-[400px] bg-white">
+          <div className="flex flex-col md:mt-16 mt-5 justify-center items-center">
+            <table className="sm:w-[400px] bg-white">
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
@@ -305,13 +318,13 @@ function HeroSection() {
             <table className="min-w-full bg-white">
               <thead>
                 <tr>
-                  <th className="py-2 px-4  xl:text-xl border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="py-2 px-4  xl:text-xl  border-b border-gray-300 bg-gray-50 text-left text-lg leading-4 font-bold  text-gray-500 uppercase tracking-wider">
                     SUBJECT
                   </th>
-                  <th className="py-2 px-4 xl:text-xl xl:text-center border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="py-2 px-4 xl:text-xl text-center border-b border-gray-300 bg-gray-50  text-lg leading-4 font-bold text-gray-500 uppercase tracking-wider">
                     GRADE
                   </th>
-                  <th className="py-2 px-4 xl:text-xl xl:text-center border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="py-2 px-4 xl:text-xl text-center border-b border-gray-300 bg-gray-50  text-lg leading-4 font-bold text-gray-500 uppercase tracking-wider">
                     REMARKS
                   </th>
                 </tr>
@@ -323,10 +336,10 @@ function HeroSection() {
                       <td className="py-4 px-4 border-b border-gray-200 align-middle">
                         {dt.subject}
                       </td>
-                      <td className="py-4 xl:text-center px-4 border-b border-gray-200 align-top">
+                      <td className="py-4 text-center px-4 border-b border-gray-200 align-top">
                         {dt.grade}
                       </td>
-                      <td className="py-4 px-4 xl:text-center border-b border-gray-200 align-bottom">
+                      <td className="py-4 px-4 text-center border-b border-gray-200 align-bottom">
                         {dt.grade === "A" ||
                         dt.grade === "B" ||
                         dt.grade === "C"
