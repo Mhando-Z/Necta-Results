@@ -1,5 +1,4 @@
-````markdown
-# NECTA Results Showcase Platform
+# NECTA Results Platform
 
 ## About the Project
 
@@ -40,10 +39,10 @@ To get a local copy up and running, follow these simple steps.
 ### Installation
 
 1. Clone the repository:
+
    ```sh
    git clone https://github.com/your_username/necta-results-showcase.git
    ```
-````
 
 2. Navigate to the project directory:
 
@@ -95,7 +94,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Your Name - [Mhando Zuberi](https://www.linkedin.com/in/mhando-zuberi-50b6a3248/) - mhandosz17@gmail.com
 
 Project Link: [https://github.com/Mhando-Z/Necta-Results.git](https://github.com/Mhando-Z/Necta-Results.git)
-
-```
-
-```
