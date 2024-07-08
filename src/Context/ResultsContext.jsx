@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import cheerio from "cheerio";
+import { createContext, useState } from "react";
 import axios from "axios";
 
 const ResultsContext = createContext();
