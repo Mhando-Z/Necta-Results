@@ -14,7 +14,6 @@ function ResultsDetails() {
 
   const filtered = data?.filter((dt) => dt?.examnumber === number);
 
-  console.log(filtered);
   return (
     <div className="container flex flex-col w-full min-h-screen p-2 mx-auto md:p-20 bg-slate-100 rounded-xl">
       {/* Heading Section */}
