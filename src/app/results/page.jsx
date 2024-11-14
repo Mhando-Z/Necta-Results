@@ -66,7 +66,7 @@ function ResultsPage() {
         </div>
       </div>
       {/* student Lists Results */}
-      <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 mt-10 mb-28 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredData?.slice(0, count)?.map((student) => (
           <div
             key={student?.examnumber}

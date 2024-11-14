@@ -1,126 +1,183 @@
 "use client";
 
-import Image from "next/image";
-import React, { useContext } from "react";
-import { useParams } from "next/navigation";
-import DataContext from "@/context/DataContext";
 import logo from "../../../../public/logo.png";
 import arms from "../../../../public/arms.png";
+import React, { useContext } from "react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { Printer } from "lucide-react";
+import DataContext from "@/context/DataContext";
 
-function ResultsDetails() {
+const ResultsDetails = () => {
   const { data, titles } = useContext(DataContext);
   const examnumber = useParams();
   const number = decodeURIComponent(examnumber.details);
-
   const filtered = data?.filter((dt) => dt?.examnumber === number);
+  const student = filtered[0];
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const getGradeColor = (grade) => {
+    switch (grade) {
+      case "A":
+        return "text-green-600";
+      case "B":
+        return "text-blue-600";
+      case "C":
+        return "text-yellow-600";
+      default:
+        return "text-red-600";
+    }
+  };
 
   return (
-    <div className="container flex flex-col w-full min-h-screen p-2 mx-auto md:p-20 bg-slate-100 rounded-xl">
-      {/* Heading Section */}
-      <div className="flex flex-col justify-between md:flex-row md:items-center">
-        {/* Necta Logo */}
-        <div className="flex flex-row items-center justify-center mt-5 md:hidden gap-x-2">
-          <Image src={logo} alt="necta logo" className="lg:size-40 size-20" />
-          <Image src={arms} alt="necta logo" className="lg:size-40 size-20" />
+    <div className="min-h-screen bg-gray-50">
+      <div className="container max-w-4xl p-4 mx-auto md:p-8">
+        {/* Print Button - Hidden in print */}
+        <div className="flex justify-end print:hidden">
+          <button
+            onClick={handlePrint}
+            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-blue-700"
+          >
+            <Printer className="w-4 h-4" />
+            Print Results
+          </button>
         </div>
-        <div className="hidden md:block">
-          <Image
-            src={logo}
-            alt="necta logo"
-            className="lg:size-40 xl:size-44 size-24"
-          />
+
+        {/* Main Content Container */}
+        <div className="p-6 bg-white rounded-lg shadow-md">
+          {/* Header Section */}
+          <div className="flex flex-col items-center justify-between gap-4 pb-6 border-b border-gray-200 md:flex-row">
+            <Image
+              src={logo}
+              alt="necta logo"
+              className="w-24 h-24 md:w-32 md:h-32"
+              priority
+            />
+            <div className="text-center">
+              <h1 className="text-xl font-bold md:text-2xl">{titles?.necta}</h1>
+              <h2 className="mt-2 text-lg font-medium text-gray-600">
+                {titles?.year}
+              </h2>
+              <h2 className="mt-1 text-lg font-medium text-gray-600">
+                {titles?.xcul}
+              </h2>
+            </div>
+            <Image
+              src={arms}
+              alt="court of arms"
+              className="hidden w-24 h-28 md:flex md:w-32 md:h-32"
+              priority
+            />
+          </div>
+
+          {/* Student Details Section */}
+          <div className="p-6 mt-8 rounded-lg bg-gray-50">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="text-center">
+                <p className="text-sm font-medium text-gray-500">
+                  Registration Number
+                </p>
+                <p className="mt-1 text-lg font-semibold">
+                  {student?.examnumber}
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-medium text-gray-500">Achievement</p>
+                <p className="mt-1 text-lg font-semibold">
+                  Division {student?.division} ({student?.points} Points)
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-medium text-gray-500">Gender</p>
+                <p className="mt-1 text-lg font-semibold">
+                  {student?.sex === "F" ? "Female" : "Male"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Results Table */}
+          <div className="mt-8">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="px-6 py-3 text-sm font-semibold text-left text-gray-600 border-b border-gray-200">
+                      Subject
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-center text-gray-600 border-b border-gray-200">
+                      Grade
+                    </th>
+                    <th className="px-6 py-3 text-sm font-semibold text-center text-gray-600 border-b border-gray-200">
+                      Remarks
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {student?.subjects.map((subject, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                        {subject.subject}
+                      </td>
+                      <td
+                        className={`px-6 py-4 text-sm font-bold text-center ${getGradeColor(
+                          subject.grade
+                        )}`}
+                      >
+                        {subject.grade}
+                      </td>
+                      <td
+                        className={`px-6 py-4 text-sm text-center ${
+                          ["A", "B", "C"].includes(subject.grade)
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {["A", "B", "C"].includes(subject.grade)
+                          ? "PASS"
+                          : "FAIL"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        {/* Headings and Titles */}
-        <div className="flex flex-col items-center justify-center mt-4 text-lg md:mt-0 xl:text-3xl xl:gap-y-3 md:text-2xl gap-y-1">
-          <h1 className="font-bold text-center">{titles?.necta}</h1>
-          <h1 className="font-medium text-center">{titles?.year}</h1>
-          <h1 className="font-medium text-center">{titles?.xcul}</h1>
-        </div>
-        {/* court of Arms logo */}
-        <div className="hidden md:block">
-          <Image
-            src={arms}
-            alt="necta logo"
-            className="lg:size-40 xl:size-44 size-24"
-          />
+
+        {/* Footer - Only visible in print */}
+        <div className="hidden mt-8 text-sm text-center text-gray-500 print:block">
+          <p>This is an official examination result document</p>
+          <p>Printed on: {new Date().toLocaleDateString()}</p>
         </div>
       </div>
-      {/* Student Details */}
-      <div className="flex flex-col items-center justify-center mt-5 md:mt-16">
-        <table className="sm:w-[400px] bg-white">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-300 bg-gray-50"></th>
-              <th className="px-4 py-2 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-300 bg-gray-50"></th>
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            <tr>
-              <td className="px-4 py-4 align-middle border-b border-gray-200">
-                REG NUMBER
-              </td>
-              <td className="px-4 py-4 align-top border-b border-gray-200">
-                {filtered[0]?.examnumber}
-              </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-4 align-middle border-b border-gray-200">
-                ACHIVEMENT
-              </td>
-              <td className="px-4 py-4 align-top border-b border-gray-200">
-                DIV {filtered[0]?.division} Point {filtered[0]?.points}
-              </td>
-            </tr>
-            <tr>
-              <td className="px-4 py-4 align-middle border-b border-gray-200">
-                SEX
-              </td>
-              <td className="px-4 py-4 align-top border-b border-gray-200">
-                {filtered[0]?.sex === "F" ? "FEMALE" : "MALE"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {/* Results Section */}
-      <div className="mt-12">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-lg font-bold leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-300 xl:text-xl bg-gray-50">
-                SUBJECT
-              </th>
-              <th className="px-4 py-2 text-lg font-bold leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-300 xl:text-xl bg-gray-50">
-                GRADE
-              </th>
-              <th className="px-4 py-2 text-lg font-bold leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-300 xl:text-xl bg-gray-50">
-                REMARKS
-              </th>
-            </tr>
-          </thead>
-          {filtered[0]?.subjects.map((dt, index) => {
-            return (
-              <tbody key={index}>
-                <tr>
-                  <td className="px-4 py-4 align-middle border-b border-gray-200">
-                    {dt.subject}
-                  </td>
-                  <td className="px-4 py-4 text-center align-top border-b border-gray-200">
-                    {dt.grade}
-                  </td>
-                  <td className="px-4 py-4 text-center align-bottom border-b border-gray-200">
-                    {dt.grade === "A" || dt.grade === "B" || dt.grade === "C"
-                      ? "PASS"
-                      : "FAIL"}
-                  </td>
-                </tr>
-              </tbody>
-            );
-          })}
-        </table>
-      </div>
+
+      {/* Print Styles */}
+      <style jsx global>{`
+        @media print {
+          @page {
+            margin: 20mm;
+          }
+          body {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          .print\\:hidden {
+            display: none !important;
+          }
+          .print\\:block {
+            display: block !important;
+          }
+          .shadow-md {
+            box-shadow: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
-}
+};
 
 export default ResultsDetails;
