@@ -9,6 +9,7 @@ import { useContext, useState } from "react";
 import { IoStatsChart } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 function ResultsPage() {
   const { data, titles } = useContext(DataContext);
@@ -32,6 +33,10 @@ function ResultsPage() {
   if (!data || data?.length === 0) {
     router.back();
   }
+
+  const handleClick = () => {
+    router.back();
+  };
 
   return (
     <div className="container flex flex-col min-h-screen px-2 mx-auto mt-5">
@@ -135,6 +140,16 @@ function ResultsPage() {
             </Link>
           </div>
         ))}
+      </div>
+      {/* Back to home button */}
+      <div>
+        <button
+          onClick={handleClick}
+          className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
       </div>
     </div>
   );
