@@ -16,7 +16,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen mt-10">
-      <div className={`mb-16 flex-col gap-y-4 justify-center items-center `}>
+      <div
+        className={`mb-16 flex flex-col gap-y-4 justify-center items-center `}
+      >
         <Image
           src={logo}
           alt="Necta Logo"
@@ -50,7 +52,9 @@ export default function Home() {
         </div>
         {/* error section preview */}
         <div className="flex items-center justify-center mt-4 ">
-          <h1 className="font-bold text-red-600 font-Raleway">{error}</h1>
+          <h1 className="max-w-md font-bold text-center text-red-600 font-Raleway">
+            {error}
+          </h1>
         </div>
       </div>
     </div>
