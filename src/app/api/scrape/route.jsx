@@ -50,7 +50,22 @@ export async function GET(req) {
     };
     title.push(titles);
 
-    return new Response(JSON.stringify({ title, results }), {
+    const polished = results.map((dt) => {
+      const { subjects } = dt;
+      const subject = subjects.split("  ").map((subjGrade) => {
+        const [subject, grade] = subjGrade.split(" - ");
+        return {
+          subject: subject.trim(),
+          grade: grade?.replace(/'/g, "").trim(),
+        };
+      });
+      return {
+        ...dt,
+        subjects: subject,
+      };
+    });
+
+    return new Response(JSON.stringify({ title, results: polished }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

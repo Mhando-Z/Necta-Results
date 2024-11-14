@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 // icons imports
 import { IoStatsChart } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function ResultsPage() {
   const { data, titles } = useContext(DataContext);
@@ -28,7 +29,7 @@ function ResultsPage() {
   };
 
   if (!data || data?.length === 0) {
-    router.push("/");
+    router.back();
   }
 
   return (
@@ -71,42 +72,46 @@ function ResultsPage() {
             key={student?.examnumber}
             className="p-4 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:border-gray-300"
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                <h3 className="text-sm font-medium text-gray-500">
-                  Reg Number
-                </h3>
-                <span className="text-sm font-semibold">
-                  {student?.examnumber}
-                </span>
-              </div>
-
-              <div className="flex items-center justify-between py-1 border-b border-gray-100">
-                <h3 className="text-sm font-medium text-gray-500">Division</h3>
-                <div className="flex items-center gap-1">
+            <Link href={`/results/${encodeURIComponent(student?.examnumber)}`}>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                  <h3 className="text-sm font-medium text-gray-500">
+                    Reg Number
+                  </h3>
                   <span className="text-sm font-semibold">
-                    {student?.division}
-                  </span>
-                  <span className="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">
-                    {student?.points} pts
+                    {student?.examnumber}
                   </span>
                 </div>
-              </div>
 
-              <div className="flex items-center justify-between py-1">
-                <h3 className="text-sm font-medium text-gray-500">Gender</h3>
-                <span
-                  className={`px-3 py-1 text-xs font-medium rounded-full
+                <div className="flex items-center justify-between py-1 border-b border-gray-100">
+                  <h3 className="text-sm font-medium text-gray-500">
+                    Division
+                  </h3>
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm font-semibold">
+                      {student?.division}
+                    </span>
+                    <span className="text-xs bg-gray-100 px-2 py-0.5 rounded-full text-gray-600">
+                      {student?.points} pts
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between py-1">
+                  <h3 className="text-sm font-medium text-gray-500">Gender</h3>
+                  <span
+                    className={`px-3 py-1 text-xs font-medium rounded-full
                   ${
                     student?.sex?.toLowerCase() === "m"
                       ? "bg-blue-50 text-blue-600"
                       : "bg-pink-50 text-pink-600"
                   }`}
-                >
-                  {student?.sex}
-                </span>
+                  >
+                    {student?.sex}
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>
