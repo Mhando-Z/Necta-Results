@@ -1,10 +1,9 @@
-// src/app/results/page.js
 "use client";
 
 import DataContext from "@/context/DataContext";
 import logo from "../../../public/logo.png";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // icons imports
 import { IoStatsChart } from "react-icons/io5";
 import { useRouter } from "next/navigation";
@@ -12,7 +11,21 @@ import { useRouter } from "next/navigation";
 function ResultsPage() {
   const { data, titles } = useContext(DataContext);
   const pData = data?.filter((md) => md?.examnumber?.length >= 5);
+  const [count, setCount] = useState(20);
+  const [inputValue, setInputValue] = useState("");
+  const [filteredData, setFilteredData] = useState(pData);
   const router = useRouter();
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    // Filter data based on input value
+    const filtered = pData?.filter((item) =>
+      item?.examnumber?.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
 
   if (!data || data?.length === 0) {
     router.push("/");
@@ -41,10 +54,19 @@ function ResultsPage() {
         <PerformanceTable data={data} />
       </div>
       {/* search for candidate */}
-      <div></div>
+      <div className="mt-10">
+        <div className="flex flex-col px-2 gap-y-2 md:px-24 sm:px-0">
+          <input
+            onChange={(e) => handleInputChange(e)}
+            type="text"
+            className="w-full px-5 py-2 font-medium text-black outline-none placeholder:text-center md:relative md:px-10 ring-green-600 rounded-3xl ring-2"
+            placeholder="Write your examination number"
+          />
+        </div>
+      </div>
       {/* student Lists Results */}
       <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {pData?.map((student) => (
+        {filteredData?.slice(0, count)?.map((student) => (
           <div
             key={student?.examnumber}
             className="p-4 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:border-gray-300"
@@ -160,7 +182,7 @@ const PerformanceTable = ({ data }) => {
     <>
       <div className="flex flex-row items-center mb-4 gap-x-2">
         <IoStatsChart className="text-xl" />
-        <h1 className="text-xl">Perfomance Summary</h1>
+        <h1 className="text-xl md:text-2xl">Perfomance Summary</h1>
       </div>
       <table className="w-full border-collapse">
         <thead>
