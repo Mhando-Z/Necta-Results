@@ -2,6 +2,7 @@
 
 import DataContext from "@/context/DataContext";
 import logo from "../../../public/logo.png";
+import arms from "../../../public/arms.png";
 import Image from "next/image";
 import { useContext, useState } from "react";
 // icons imports
@@ -35,19 +36,39 @@ function ResultsPage() {
   return (
     <div className="container flex flex-col min-h-screen px-2 mx-auto mt-5">
       {/* header section */}
-      <div className="flex flex-col items-center justify-center gap-5 md:flex-row">
-        <Image src={logo} alt="necta logo" className="size-44" />
+      <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12">
+        {/* Logo with hover effect and shadow */}
+        <div className="relative group">
+          <div className="absolute inset-0 transition-all duration-300 rounded-full opacity-0 bg-blue-500/20 blur-xl group-hover:blur-2xl group-hover:opacity-100" />
+          <Image
+            src={logo}
+            alt="necta logo"
+            className="relative transition-transform duration-300 size-44 md:size-52 hover:scale-105"
+          />
+        </div>
 
-        <div className="gap-2 text-center md:text-left">
-          <h1 className="text-2xl font-bold md:text-4xl font-roboto">
+        {/* Titles with improved typography and spacing */}
+        <div className="flex flex-col max-w-2xl gap-3 text-center ">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-4xl font-roboto">
             {titles?.necta}
           </h1>
-          <h1 className="text-xl font-semibold md:text-3xl font-roboto">
+
+          <h2 className="text-xl font-semibold text-gray-800 md:text-3xl font-roboto">
             {titles?.xcul}
-          </h1>
-          <h1 className="text-lg font-semibold md:text-2xl font-roboto">
+          </h2>
+
+          <h3 className="text-lg font-medium text-gray-700 md:text-2xl font-roboto">
             {titles?.year}
-          </h1>
+          </h3>
+        </div>
+
+        <div className="relative hidden md:flex group">
+          <div className="absolute inset-0 transition-all duration-300 rounded-full opacity-0 bg-blue-500/20 blur-xl group-hover:blur-2xl group-hover:opacity-100" />
+          <Image
+            src={arms}
+            alt="necta logo"
+            className="relative transition-transform duration-300 size-44 md:size-52 hover:scale-105"
+          />
         </div>
       </div>
       {/* perfomance Summary */}
@@ -164,6 +185,14 @@ const PerformanceTable = ({ data }) => {
     O: { count: 0 },
   };
 
+  const Dummy = {
+    I: { count: 0 },
+    II: { count: 0 },
+    III: { count: 0 },
+    IV: { count: 0 },
+    O: { count: 0 },
+  };
+
   // Check if groupedData exists and is valid before processing
   if (groupedData) {
     Object.values(groupedData).forEach((sexData) => {
@@ -179,8 +208,8 @@ const PerformanceTable = ({ data }) => {
   }
 
   const GData = {
-    F: groupedData.F,
-    M: groupedData.M,
+    F: groupedData?.F || Dummy,
+    M: groupedData?.M || Dummy,
   };
 
   return (

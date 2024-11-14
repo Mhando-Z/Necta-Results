@@ -4,8 +4,8 @@ import logo from "../../../../public/logo.png";
 import arms from "../../../../public/arms.png";
 import React, { useContext } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { Printer } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { Printer, ArrowLeft } from "lucide-react";
 import DataContext from "@/context/DataContext";
 
 const ResultsDetails = () => {
@@ -14,9 +14,14 @@ const ResultsDetails = () => {
   const number = decodeURIComponent(examnumber.details);
   const filtered = data?.filter((dt) => dt?.examnumber === number);
   const student = filtered[0];
+  const router = useRouter();
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleClick = () => {
+    router.back();
   };
 
   const getGradeColor = (grade) => {
@@ -32,14 +37,25 @@ const ResultsDetails = () => {
     }
   };
 
+  if (!data || data?.length === 0) {
+    router.push("/");
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container max-w-4xl p-4 mx-auto md:p-8">
         {/* Print Button - Hidden in print */}
-        <div className="flex justify-end print:hidden">
+        <div className="flex justify-between print:hidden">
+          <button
+            onClick={handleClick}
+            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </button>
           <button
             onClick={handlePrint}
-            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-blue-700"
+            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
           >
             <Printer className="w-4 h-4" />
             Print Results
@@ -56,6 +72,7 @@ const ResultsDetails = () => {
               className="w-24 h-24 md:w-32 md:h-32"
               priority
             />
+
             <div className="text-center">
               <h1 className="text-xl font-bold md:text-2xl">{titles?.necta}</h1>
               <h2 className="mt-2 text-lg font-medium text-gray-600">
