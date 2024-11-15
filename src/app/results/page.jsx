@@ -159,13 +159,13 @@ function ResultsPage() {
       </motion.div>
 
       <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+        initial={{ opacity: 0, x: 100 }}
+        whileInView={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 130 }}
       >
         <button
           onClick={handleClick}
-          className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
+          className="flex flex-row items-center gap-2 px-3 py-1 mb-4 font-semibold text-white bg-green-600 rounded font-roboto hover:bg-green-700"
         >
           <ArrowLeft className="w-4 h-4" />
           Back

@@ -49,17 +49,17 @@ const ResultsDetails = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="container max-w-4xl p-4 mx-auto md:p-8">
         {/* Print Button - Hidden in print */}
-        <div className="flex justify-between print:hidden">
+        <div className="flex justify-between mb-10 print:hidden">
           <button
             onClick={handleClick}
-            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
+            className="flex flex-row items-center gap-2 px-3 py-1 mb-4 font-semibold text-white bg-green-600 rounded font-roboto hover:bg-green-700"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
           </button>
           <button
             onClick={handlePrint}
-            className="flex flex-row items-center font-roboto font-semibold gap-2 mb-4 px-3 py-1.5 rounded text-white bg-green-600 hover:bg-green-700"
+            className="flex flex-row items-center gap-2 px-3 py-1 mb-4 font-semibold text-white bg-green-600 rounded font-roboto hover:bg-green-700"
           >
             <Printer className="w-4 h-4" />
             Print Results
