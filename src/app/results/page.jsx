@@ -111,10 +111,13 @@ function ResultsPage() {
         animate={{ opacity: 1 }}
         transition={{ staggerChildren: 0.1 }}
       >
-        {filteredData?.slice(0, count)?.map((student) => (
+        {filteredData?.slice(0, count)?.map((student, index) => (
           <motion.div
             key={student?.examnumber}
             className="p-4 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:border-green-500"
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", delay: 0.1 * index }}
             whileHover={{ scale: 1.02 }}
           >
             <Link href={`/results/${encodeURIComponent(student?.examnumber)}`}>
