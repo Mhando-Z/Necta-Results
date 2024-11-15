@@ -17,11 +17,15 @@ const ResultsDetails = () => {
   const router = useRouter();
 
   const handlePrint = () => {
-    window.print();
+    if (typeof window !== "undefined") {
+      window.print();
+    }
   };
 
   const handleClick = () => {
-    router.back();
+    if (typeof window !== "undefined") {
+      router.back();
+    }
   };
 
   const getGradeColor = (grade) => {
@@ -37,7 +41,7 @@ const ResultsDetails = () => {
     }
   };
 
-  if (!data || data?.length === 0) {
+  if (typeof window !== "undefined" && (!data || data?.length === 0)) {
     router.push("/");
   }
 
@@ -122,7 +126,7 @@ const ResultsDetails = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-50">
-                    <th className="px-6 py-3 text-sm font-semibold text-left text-gray-600 border-b border-gray-200">
+                    <th className="px-6 py-3 pl-16 text-sm font-semibold text-left text-gray-600 border-b border-gray-200">
                       Subject
                     </th>
                     <th className="px-6 py-3 text-sm font-semibold text-center text-gray-600 border-b border-gray-200">
@@ -136,7 +140,7 @@ const ResultsDetails = () => {
                 <tbody className="divide-y divide-gray-200">
                   {student?.subjects.map((subject, index) => (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <td className="px-6 py-4 pl-16 text-sm font-medium text-gray-900">
                         {subject.subject}
                       </td>
                       <td
@@ -167,7 +171,7 @@ const ResultsDetails = () => {
 
         {/* Footer - Only visible in print */}
         <div className="hidden mt-8 text-sm text-center text-gray-500 print:block">
-          <p>This is an official examination result document</p>
+          <p>This is an official examination result from Necta website</p>
           <p>Printed on: {new Date().toLocaleDateString()}</p>
         </div>
       </div>

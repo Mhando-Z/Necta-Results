@@ -28,12 +28,14 @@ function ResultsPage() {
     setFilteredData(filtered);
   };
 
-  if (!data || data?.length === 0) {
+  if (typeof window !== "undefined" && (!data || data?.length === 0)) {
     router.back();
   }
 
   const handleClick = () => {
-    router.back();
+    if (typeof window !== "undefined") {
+      router.back();
+    }
   };
 
   return (
@@ -47,24 +49,24 @@ function ResultsPage() {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-7"
+        className="flex flex-col items-center justify-center gap-8 md:flex-row md:gap-5"
       >
         <motion.div className="">
           <Image
             src={logo}
             alt="necta logo"
-            className="transition-transform duration-300 size-44 md:size-52 hover:scale-105"
+            className="transition-transform duration-300 size-44 lg:size-52 hover:scale-105"
           />
         </motion.div>
 
-        <div className="flex flex-col max-w-2xl gap-3 text-center">
-          <motion.h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-4xl font-roboto">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <motion.h1 className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl lg:text-4xl font-roboto">
             {titles?.necta}
           </motion.h1>
-          <motion.h2 className="text-xl font-semibold text-gray-800 md:text-3xl font-roboto">
+          <motion.h2 className="text-xl font-semibold text-gray-800 md:max-w-2xl md:text-3xl lg:text-3xl font-roboto">
             {titles?.xcul}
           </motion.h2>
-          <motion.h3 className="text-lg font-medium text-gray-700 md:text-2xl font-roboto">
+          <motion.h3 className="text-lg font-medium text-gray-700 md:text-xl lg:text-2xl font-roboto">
             {titles?.year}
           </motion.h3>
         </div>
@@ -73,7 +75,7 @@ function ResultsPage() {
           <Image
             src={arms}
             alt="necta logo"
-            className="transition-transform duration-300 size-44 md:size-52 hover:scale-105"
+            className="transition-transform duration-300 size-44 lg:size-52 hover:scale-105"
           />
         </motion.div>
       </motion.div>
@@ -97,7 +99,7 @@ function ResultsPage() {
           <input
             onChange={(e) => handleInputChange(e)}
             type="text"
-            className="w-full px-5 py-2 font-medium text-black outline-none placeholder:text-center md:relative md:px-10 ring-green-600 rounded-3xl ring-2"
+            className="w-full px-5 py-2 font-medium text-black outline-none placeholder:text-center md:relative md:px-10 ring-green-600 rounded-3xl ring-1 focus:ring-2"
             placeholder="Write your examination number"
           />
         </div>
@@ -112,7 +114,7 @@ function ResultsPage() {
         {filteredData?.slice(0, count)?.map((student) => (
           <motion.div
             key={student?.examnumber}
-            className="p-4 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:border-gray-300"
+            className="p-4 transition-all duration-200 border border-gray-200 rounded-lg bg-gray-50 hover:border-green-500"
             whileHover={{ scale: 1.02 }}
           >
             <Link href={`/results/${encodeURIComponent(student?.examnumber)}`}>
@@ -222,8 +224,13 @@ const PerformanceTable = ({ data }) => {
     O: { count: 0 },
   };
 
-  if (groupedData) {
-    Object.values(groupedData).forEach((sexData) => {
+  const GData = {
+    F: groupedData?.F || Dummy,
+    M: groupedData?.M || Dummy,
+  };
+
+  if (GData) {
+    Object.values(GData).forEach((sexData) => {
       Object.keys(sexData).forEach((division) => {
         if (totals[division]) {
           totals[division].count += sexData[division].count;
@@ -233,11 +240,6 @@ const PerformanceTable = ({ data }) => {
       });
     });
   }
-
-  const GData = {
-    F: groupedData?.F || Dummy,
-    M: groupedData?.M || Dummy,
-  };
 
   return (
     <>
